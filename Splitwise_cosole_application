@@ -1,0 +1,104 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat; 
+
+public class SplitWise {
+	public static void main(String[] args) {
+		Scanner s = new Scanner(System.in);
+		System.out.println("\n------------------SPLITWISE APP--------------------------");
+        System.out.println("\nEnter the number of friends: ");
+        int numOfFriends = s.nextInt();
+        String[] friends = new String[numOfFriends];
+        double totalExpenses = 0;
+        double avgExpenses;
+
+		double[][] payMatrix = new double[numOfFriends][numOfFriends];
+        
+        for (int i = 0; i < numOfFriends; i++) {
+            System.out.print("Enter the name of friend " + (i+1) + ": ");
+            friends[i] = s.next();
+        }
+        System.out.println("\n\nPress 1 for Add Expense \nPress 2 for View Payment \nPress 3 for Exit");
+        while(s.hasNext())
+        {
+        	int n=s.nextInt();
+        	switch(n)
+        	{
+        	case 1:
+        	{
+        		System.out.println("Enter the description");
+        		String ss=s.next();
+        		System.out.println("Enter the amount paid:");
+        		double amt=s.nextDouble();
+        		System.out.println("Enter who paid the amount:");
+        		String name=s.next();
+        		totalExpenses = amt;
+        		int k=0;
+        		for (int i = 0; i < numOfFriends; i++) 
+        		{
+                    if(name.equals(friends[i]))
+                    {
+                    	k=i;
+                    }
+                }
+        		System.out.println("How many of your friend involved in "+ss);
+        		int m=s.nextInt();
+        		System.out.println("Enter the name of Persons Involved in "+ss);
+        		ArrayList<Integer> arr=new ArrayList<>();
+        		for(int i=0;i<m;i++)
+        		{
+        			String mm=s.next();
+        			for(int l=0;l<numOfFriends; l++)
+        			{
+        				if(mm.equals(friends[l]))
+        				{
+        					arr.add(l);
+        				}
+        			}
+        		}
+        		avgExpenses = totalExpenses / m;
+                for (int i = 0; i < numOfFriends; i++) {
+                    for (int j = 0; j < numOfFriends; j++) {
+                        if (i != j && k==j && arr.contains(i)) {
+                            payMatrix[i][j]+= avgExpenses;
+                        }
+                        else if(k==i && i!=j && arr.contains(j))
+                        {
+                            payMatrix[i][j]+=0-avgExpenses;
+                        }
+                    }
+                }
+                System.out.println("Amount is added");
+        		System.out.println("\n\nPress 1 for Add Expense \nPress 2 for View Payment \nPress 3 for Exit");
+        		break;
+        	}
+        	case 2:
+        	{
+        		 for (int i = 0; i < numOfFriends; i++) {
+        	            for (int j = 0; j < numOfFriends; j++) {
+        	                if (i != j && payMatrix[i][j]>0) {
+        	                    double a= (Math.round(payMatrix[i][j]*100.0)/100.0);
+								System.out.println(friends[i] + " has to pay  Rs." + a + " to " + friends[j]);
+        	                }
+        	            }
+        	        }
+        		System.out.println("\n\nPress 1 for Add Expense \nPress 2 for View Payment \nPress 3 for Exit");
+        		break;
+        	}
+        	case 3:
+        	{
+        		System.out.println("Thank you for using Splt app");
+        		break;
+        	}
+        	default:
+        	{
+        		System.out.println("Invalid Input");
+        		System.out.println("\n\nPress 1 for Add Expense \nPress 2 for View Payment \nPress 3 for Exit");
+        		break;
+        	}
+          }
+        }
+	}
+}
