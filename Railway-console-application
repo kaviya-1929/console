@@ -1,0 +1,261 @@
+import java.util.Scanner;
+
+public class Railwayconsole {
+	private static int[][] arr=new int[5][5];
+	private static int[][] wait=new int[5][5];
+    private static final String[] STATIONS = {"covai", "thirupur", "erode", "salem", "chennai"};
+	public static void main(String[] args) {
+      Scanner scanner = new Scanner(System.in);
+      System.out.println("\n********Welcome to the Train Reservation System*******");
+      System.out.println("Please choose an option:");
+      System.out.println("1. Reserve a seat");
+      System.out.println("2. Cancel a reservation");
+      System.out.println("3. View Available Seats");
+      System.out.println("4. Exit");
+      
+         for(int i=0;i<5;i++)
+         {
+        	 for(int j=0;j<5;j++)
+        	 {
+        		 if(j>i)
+        		 {
+        			 arr[i][j]=10;
+        		 }
+        	 }
+         }
+         for(int i=0;i<5;i++)
+         {
+        	 for(int j=0;j<5;j++)
+        	 {
+        		 if(j>i)
+        		 {
+        			 wait[i][j]=5;
+        		 }
+        	 }
+         }
+         while (scanner.hasNext()) 
+         {
+         int choice = scanner.nextInt();
+
+         switch (choice) {
+               case 1:
+             	   reserveSeat();
+    	            System.out.println("\n********Welcome to the Train Reservation System*******");
+ 	            System.out.println("Please choose an option:");
+ 	            System.out.println("1. Reserve a seat");
+ 	            System.out.println("2. Cancel a reservation");
+  	            System.out.println("3. View Available Seats");
+ 	            System.out.println("4. Exit");
+                    break;
+                case 2:
+                  cancelReservation();
+    	            System.out.println("\n********Welcome to the Train Reservation System*******");
+ 	            System.out.println("Please choose an option:");
+ 	            System.out.println("1. Reserve a seat");
+ 	            System.out.println("2. Cancel a reservation");
+ 	            System.out.println("3. View Available Seats");
+ 	            System.out.println("4. Exit");
+                    break;
+                case 3:
+             	   viewAvailableSeats();
+    	            System.out.println("\n********Welcome to the Train Reservation System*******");
+ 	            System.out.println("Please choose an option:");
+ 	            System.out.println("1. Reserve a seat");
+ 	            System.out.println("2. Cancel a reservation");
+  	            System.out.println("3. View Available Seats");
+ 	            System.out.println("4. Exit");
+                    break;
+                case 4:
+                    System.out.println("Thank you for using the Train Reservation System");
+                    System.exit(0);
+                    break;
+                default:
+             	   System.out.println("Invalid choice\n");
+    	            System.out.println("\n********Welcome to the Train Reservation System*******");
+ 	            System.out.println("Please choose an option:");
+ 	            System.out.println("1. Reserve a seat");
+ 	            System.out.println("2. Cancel a reservation");
+ 	            System.out.println("3. View Available Seats");
+ 	            System.out.println("4. Exit");
+                    break;
+            }
+	}
+}
+	 private static void viewAvailableSeats() {
+		 System.out.println("\nRESERVATION SEATS.........");
+         for(int i=0;i<5;i++)
+         {
+        	 for(int j=0;j<5;j++)
+        	 {
+        		 if(j>i)
+        		 {
+        			System.out.println("From "+ STATIONS[i]+" to "+STATIONS[j]+" "+arr[i][j]+" seats are available");
+        		 }
+        	 }
+         }
+		 System.out.println("\nWAITING LIST SEATS.........");
+         for(int i=0;i<5;i++)
+         {
+        	 for(int j=0;j<5;j++)
+        	 {
+        		 if(j>i)
+        		 {
+        			System.out.println("From "+ STATIONS[i]+" to "+STATIONS[j]+" "+wait[i][j]+" seats are available");
+        		 }
+        	 }
+         }
+     }
+
+    private static void reserveSeat() 
+    {
+    	Scanner scanner = new Scanner(System.in);
+    	System.out.println("Enter number of seats you want to book");
+        int num=scanner.nextInt();
+        
+    	 
+         System.out.println("Please enter the station you will depart from:"
+         		+ "\n 1 for covai \n 2 for thirupur \n 3 for erode \n 4 for salem \n 5 for chennai");
+         int n1=scanner.nextInt();
+         System.out.println("Please enter the station you will arrive at:"
+      		   + "\n 1 for covai \n 2 for thirupur \n 3 for erode \n 4 for salem \n 5 for chennai");
+         int n2=scanner.nextInt();
+         n1-=1;
+         n2-=1;
+         System.out.println("Enter your name:");
+         String name=scanner.next();
+         if (n1==n2) 
+         {
+             System.out.println("Departure and arrival stations cannot be the same");
+             return;
+         } 
+         for(int i=0;i<5;i++)
+         {
+        	 for(int j=0;j<5;j++)
+        	 {
+        		 if((j>i) && (i<n1 && j<=n1)|| (i>=n2 && j>n2)) 
+        		 {
+        			 
+        		 }
+        		 else
+        		 {
+        		   if((j>i) && arr[i][j]<num)
+        			 {
+        			   System.out.println("The seats are already reserved");
+	            	   addToWaiting(num,n1,n2);
+	            		return;
+        			 }
+        		 }
+        	 }
+         }
+         for(int i=0;i<5;i++)
+         {
+        	 for(int j=0;j<5;j++)
+        	 {
+        		 if((j>i) && (i<n1 && j<=n1)|| (i>=n2 && j>n2)) 
+        		 {
+//        		     System.out.println(i);
+//        		     System.out.println(j);
+        		 }
+        		 else
+        		 {
+        			
+        			 if(arr[i][j]>=num)
+        			 {
+        				 arr[i][j]-=num;
+        			 }
+        		 }
+        	 }
+         }
+         System.out.println("Your seats are reserved");
+	           
+	
+	
+    }
+    private static void addToWaiting(int num,int n1,int n2) 
+    {
+    	for(int i=0;i<5;i++)
+        {
+       	 for(int j=0;j<5;j++)
+       	 {
+       		 if((j>i) && (i<n1 && j<=n1)|| (i>=n2 && j>n2)) 
+       		 {
+       			 
+       		 }
+       		 else
+       		 {
+       		   if((j>i) && wait[i][j]<num)
+       			 {
+       			   System.out.println("The seats are already reserved for waiting list also");
+	            	return;
+       			 }
+       		 }
+       	 }
+        }
+        for(int i=0;i<5;i++)
+        {
+       	 for(int j=0;j<5;j++)
+       	 {
+       		 if((j>i) && (i<n1 && j<=n1)|| (i>=n2 && j>n2)) 
+       		 {
+//       		     System.out.println(i);
+//       		     System.out.println(j);
+       		 }
+       		 else
+       		 {
+       			 if(wait[i][j]>=num)
+       			 {
+       				 wait[i][j]-=num;
+       			 }
+       		 }
+       	 }
+        }
+        System.out.println("You are added to waiting list Successfully. \nIf any cancellation happed your seats will be book");
+    }
+    private static void cancelReservation()
+    {
+       Scanner scanner=new Scanner(System.in);
+  	   System.out.println("How many tickets you want to cancel");
+  	   int x=scanner.nextInt();
+  	   System.out.println("Enter reason for cancellation:");
+  	   String ss=scanner.next();
+  	   System.out.println("Please enter the booked station you will depart from:"
+	           		+ "\n 1 for covai \n 2 for thirupur \n 3 for erode \n 4 for salem \n 5 for chennai");
+	   int n3=scanner.nextInt();
+	   System.out.println("Please enter the booked station you will arrive at:"
+	        		   + "\n 1 for covai \n 2 for thirupur \n 3 for erode \n 4 for salem \n 5 for chennai");
+	   int n4=scanner.nextInt();
+	   n3-=1;
+	   n4-=1;
+	   if (n3==n4) 
+       {
+           System.out.println("Departure and arrival stations cannot be the same");
+           return;
+       } 
+	   for(int i=0;i<5;i++)
+       {
+      	 for(int j=0;j<5;j++)
+      	 {
+      		 if((j>i) && (i<n3 && j<=n3)|| (i>=n4 && j>n4)) 
+      		 {
+//      		     System.out.println(i);
+//      		     System.out.println(j);
+      		 }
+      		 else
+      		 {
+      			 if(wait[i][j]<=x && wait[i][j]+x<=5)
+      			 {
+      				 wait[i][j]+=x;
+      			 }else if((arr[i][j]<=x))
+      			 {
+      				arr[i][j]+=x;
+      			 }
+      		      }
+      	 }
+       } 
+	   
+	   
+    	
+    	
+    	
+    }
+}
